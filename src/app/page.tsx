@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import { soundSystem } from './sound'
 
 const Factory404 = () => {
   // Game state
@@ -78,53 +79,36 @@ const Factory404 = () => {
     itemsPerSecond: 0,
     creditsPerSecond: 0
   })
+  const [megaCombo, setMegaCombo] = useState(0)
+  const [comboTimer, setComboTimer] = useState(0)
+  const [bossBattle, setBossBattle] = useState(false)
+  const [bossHealth, setBossHealth] = useState(1000)
+  const [miniGames, setMiniGames] = useState({
+    codeBreaker: false,
+    memoryMatrix: false,
+    quantumPuzzle: false
+  })
+  const [tournament, setTournament] = useState(false)
+  const [tournamentRank, setTournamentRank] = useState('Rookie')
+  const [epicLevel, setEpicLevel] = useState(1)
+  const [specialAbilities, setSpecialAbilities] = useState({
+    timeWarp: false,
+    matterDuplicator: false,
+    realityHack: false
+  })
+  const [dimensioNalerts, setDimensionalAlerts] = useState([])
+  const [quantumEntanglements, setQuantumEntanglements] = useState(0)
+  const [alienInvasion, setAlienInvasion] = useState(false)
+  const [spaceBattle, setSpaceBattle] = useState(false)
+  const [discoveredSecrets, setDiscoveredSecrets] = useState([])
+  const [hiddenAchievements, setHiddenAchievements] = useState({
+    legendaryBuilder: false,
+    quantumMaster: false,
+    interdimensionalExplorer: false,
+    ultimateWinner: false
+  })
 
-  // Check if first visit
-  useEffect(() => {
-    const hasVisited = localStorage.getItem('factory404_visited')
-    if (!hasVisited) {
-      setShowLore(true)
-      localStorage.setItem('factory404_visited', 'true')
-    } else {
-      setShowLore(false)
-    }
-  }, [])
-
-  // Shutdown animation when leaving page
-  useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      // Add shutdown animation class
-      document.body.classList.add('shutdown-mode')
-      
-      // Show shutdown message
-      const shutdownDiv = document.createElement('div')
-      shutdownDiv.className = 'shutdown-message'
-      shutdownDiv.innerHTML = `
-        <div class="shutdown-content">
-          <pre>
-SYSTEM SHUTDOWN INITIATED...
-SAVING QUANTUM STATE...
-FACTORY 404 OFFLINE
-          </pre>
-        </div>
-      `
-      document.body.appendChild(shutdownDiv)
-      
-      // Prevent default to show animation
-      e.preventDefault()
-      e.returnValue = ''
-      
-      // Actually allow unload after a delay
-      setTimeout(() => {
-        document.body.removeChild(shutdownDiv)
-      }, 2000)
-    }
-
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
-  }, [])
-
-  // Add message to terminal with typewriter effect
+  // Function declarations moved up to fix dependency issues
   const addMessage = useCallback((msg: string, useTypewriter = true) => {
     if (useTypewriter && msg.includes('> [') && !msg.includes('> [PROMPT]')) {
       // Typewriter effect for system messages
@@ -180,9 +164,125 @@ FACTORY 404 OFFLINE
     }
   }, [])
 
-  // Check for victory condition
+  const playSound = (soundType: string) => {
+    if (!soundEnabled) return
+
+    // Visual feedback for sound
+    setLastAction(soundType)
+    setTimeout(() => setLastAction(''), 500)
+
+    // Play actual sound
+    try {
+      soundSystem.play(soundType, 0.3)
+    } catch (error) {
+      console.log(`Playing sound: ${soundType}`)
+    }
+  }
+
+  const createParticleExplosion = useCallback(() => {
+      if (!particleEffects) return
+      
+      const colors = ['#00ff88', '#00d9ff', '#ff006e', '#9d00ff', '#ffea00']
+      const particleContainer = document.createElement('div')
+      particleContainer.className = 'particle-container'
+      document.body.appendChild(particleContainer)
+      
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div')
+        particle.style.position = 'absolute'
+        particle.style.left = '50%'
+        particle.style.top = '50%'
+        particle.style.width = '4px'
+        particle.style.height = '4px'
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        particle.style.borderRadius = '50%'
+        particle.style.pointerEvents = 'none'
+        particle.style.boxShadow = `0 0 10px ${particle.style.backgroundColor}`
+        
+        const angle = (Math.PI * 2 * i) / 20
+        const velocity = 50 + Math.random() * 100
+        const lifetime = 500 + Math.random() * 500
+      
+        particle.style.transform = `translate(-50%, -50%)`
+        
+        particleContainer.appendChild(particle)
+        
+        const startTime = Date.now()
+        const animate = () => {
+          const elapsed = Date.now() - startTime
+          if (elapsed > lifetime) {
+            particle.remove()
+            return
+          }
+          
+          const progress = elapsed / lifetime
+          const distance = velocity * progress
+          const opacity = 1 - progress
+          
+          particle.style.transform = `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px))`
+          particle.style.opacity = opacity.toString()
+          
+          requestAnimationFrame(animate)
+        }
+        
+        requestAnimationFrame(animate)
+      }
+      
+      setTimeout(() => {
+        particleContainer.remove()
+      }, 1500)
+    }, [particleEffects])
+
+  // Check if first visit
   useEffect(() => {
-    if (corruptionLevel >= 3 && upgrades.singularityDrive > 0) {
+    const hasVisited = localStorage.getItem('factory404_visited')
+    if (!hasVisited) {
+      setShowLore(true)
+      localStorage.setItem('factory404_visited', 'true')
+    } else {
+      setShowLore(false)
+    }
+  }, [])
+
+  // Shutdown animation when leaving page
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // Add shutdown animation class
+      document.body.classList.add('shutdown-mode')
+      
+      // Show shutdown message
+      const shutdownDiv = document.createElement('div')
+      shutdownDiv.className = 'shutdown-message'
+      shutdownDiv.innerHTML = `
+        <div class="shutdown-content">
+          <pre>
+SYSTEM SHUTDOWN INITIATED...
+SAVING QUANTUM STATE...
+FACTORY 404 OFFLINE
+          </pre>
+        </div>
+      `
+      document.body.appendChild(shutdownDiv)
+      
+      // Prevent default to show animation
+      e.preventDefault()
+      e.returnValue = ''
+      
+      // Actually allow unload after a delay
+      setTimeout(() => {
+        document.body.removeChild(shutdownDiv)
+      }, 2000)
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [])
+
+
+
+  // Check for epic victory condition
+  useEffect(() => {
+    if (corruptionLevel >= 3 && upgrades.singularityDrive > 0 && epicLevel >= 10) {
       setShowVictory(true)
       setAchievements(prev => {
         if (!prev.singularityAchieved) {
@@ -191,8 +291,15 @@ FACTORY 404 OFFLINE
         }
         return prev
       })
+      setHiddenAchievements(prev => {
+        if (!prev.ultimateWinner) {
+          addMessage("> 🏆 [LEGENDARY] ULTIMATE WINNER ACHIEVED!")
+          return {...prev, ultimateWinner: true}
+        }
+        return prev
+      })
     }
-  }, [corruptionLevel, upgrades.singularityDrive, addMessage])
+  }, [corruptionLevel, upgrades.singularityDrive, epicLevel, addMessage])
 
   // Check achievements and progression milestones
   useEffect(() => {
@@ -387,7 +494,7 @@ FACTORY 404 OFFLINE
       }
     }, 1000)
     return () => clearInterval(interval)
-  }, [])
+  }, [addMessage])
 
   // Auto save
   useEffect(() => {
@@ -416,8 +523,8 @@ FACTORY 404 OFFLINE
         setResearch(prev => ({...prev, ...data.research}))
         setAchievements(prev => ({...prev, ...data.achievements}))
         setStats(prev => ({...prev, ...data.stats}))
-      } catch (e) {
-        console.error('Failed to load save data')
+            } catch {
+              console.error('Failed to load save data')
       }
     }
   }, [])
@@ -709,7 +816,7 @@ FACTORY 404 OFFLINE
               setAchievements(prev => ({...prev, ...data.achievements}))
               setStats(prev => ({...prev, ...data.stats}))
               addMessage("> [LOAD] Game loaded successfully")
-            } catch (e) {
+            } catch {
               addMessage("> [ERROR] Failed to load save data")
             }
           } else {
@@ -869,29 +976,48 @@ FACTORY 404 OFFLINE
     }
   }
 
-   // Handle click with more effects and loading states
-   const handleClick = useCallback(() => {
-     if (isLoading || factoryHealth <= 0) return
-     
-     // Screen shake effect
-     const mainContainer = document.querySelector('.max-w-7xl')
-     if (mainContainer) {
-       mainContainer.classList.add('screen-shake')
-       setTimeout(() => mainContainer.classList.remove('screen-shake'), 300)
-     }
-     
-     // Create particle explosion
-     createParticleExplosion()
-     
-     setIsLoading(true)
-     setIsTransitioning(true)
-     
-     setTimeout(() => {
-       playSound('click')
-       const researchBonus = 1 + (research.nanotechnology * 0.1) + (research.quantumComputing * 0.2) + (research.artificialIntelligence * 0.3)
-       const baseProduction = (1 + (upgrades.overclock * 2) + (upgrades.neuralNetwork * 5)) * researchBonus
-       const newClicks = clicks + Math.floor(baseProduction)
-       setClicks(newClicks)
+    // Handle click with more effects and loading states
+    const handleClick = useCallback(() => {
+      if (isLoading || factoryHealth <= 0) return
+      
+      // Enhanced combo system
+      setComboTimer(prev => prev + 1)
+      setMegaCombo(prev => {
+        const newCombo = prev + 1
+        if (newCombo >= 10) {
+          addMessage("> [MEGA COMBO] ×10 MULTIPLIER ACTIVATED!")
+          createParticleExplosion()
+        } else if (newCombo >= 5) {
+          addMessage(`> [COMBO] ×${newCombo} STREAK!`)
+        }
+        return newCombo
+      })
+      
+      // Screen shake effect
+      const mainContainer = document.querySelector('.max-w-7xl')
+      if (mainContainer) {
+        mainContainer.classList.add('screen-shake')
+        setTimeout(() => mainContainer.classList.remove('screen-shake'), 300)
+      }
+      
+      // Create particle explosion
+      createParticleExplosion()
+      
+      setIsLoading(true)
+      setIsTransitioning(true)
+      
+      setTimeout(() => {
+        playSound('click')
+        
+        // EPIC BONUS CALCULATIONS
+        const comboMultiplier = Math.min(megaCombo, 10)
+        const researchBonus = 1 + (research.nanotechnology * 0.1) + (research.quantumComputing * 0.2) + (research.artificialIntelligence * 0.3)
+        const tournamentBonus = tournament ? 2 : 1
+        const epicBonus = epicLevel > 1 ? epicLevel * 0.5 : 0
+        
+        const baseProduction = (1 + (upgrades.overclock * 2) + (upgrades.neuralNetwork * 5)) * researchBonus * comboMultiplier * tournamentBonus * (1 + epicBonus)
+        const newClicks = clicks + Math.floor(baseProduction)
+        setClicks(newClicks)
     
     // Generate items
     const newItems = [...items]
@@ -963,7 +1089,7 @@ FACTORY 404 OFFLINE
      setIsLoading(false)
      setIsTransitioning(false)
       }, 100)
-   }, [clicks, items, upgrades, corruptionLevel, credits, addMessage, generateItem, research, isLoading, factoryHealth])
+   }, [clicks, items, upgrades, corruptionLevel, credits, addMessage, generateItem, research, isLoading, factoryHealth, createParticleExplosion, epicLevel, megaCombo, playSound, tournament])
 
 
 useEffect(() => {
@@ -978,8 +1104,54 @@ useEffect(() => {
 
     return () => clearInterval(interval);
   }
-}, [autoClickers, handleClick, factoryHealth, upgrades.quantumCore, upgrades.neuralNetwork, research.quantumComputing, research.timeManipulation]);
+  }, [autoClickers, handleClick, factoryHealth, upgrades.quantumCore, upgrades.neuralNetwork, research.quantumComputing, research.timeManipulation]);
 
+
+  // Combo timer decay system
+  useEffect(() => {
+    if (comboTimer > 0) {
+      const decayTimer = setTimeout(() => {
+        setComboTimer(prev => Math.max(0, prev - 1))
+        if (comboTimer === 1) {
+          setMegaCombo(0)
+          addMessage("> [COMBO] Streak reset!")
+        }
+      }, 2000)
+      return () => clearTimeout(decayTimer)
+    }
+  }, [comboTimer, addMessage])
+
+
+
+  // Boss battle mechanics
+  const attackBoss = () => {
+    if (!bossBattle) return
+    
+    const damage = Math.floor((10 + upgrades.overclock * 5 + upgrades.neuralNetwork * 10) * (1 + megaCombo * 0.1))
+    setBossHealth(prev => Math.max(0, prev - damage))
+    
+    if (bossHealth <= damage) {
+      setBossBattle(false)
+      setBossHealth(1000 + epicLevel * 500)
+      setCredits(prev => prev + 1000 * epicLevel)
+      setEpicLevel(prev => prev + 1)
+      addMessage(`> 🎉 [VICTORY] BOSS DEFEATED! REWARD: ${1000 * epicLevel} CREDITS!`)
+      addMessage(`> [LEVEL UP] EPIC LEVEL ${epicLevel + 1} REACHED!`)
+    } else {
+      setFactoryHealth(prev => Math.max(0, prev - 5))
+      addMessage(`> ⚔️ [ATTACK] DEALT ${damage} DAMAGE TO BOSS!`)
+    }
+  }
+
+  // Epic random events system
+  useEffect(() => {
+    const epicInterval = setInterval(() => {
+      if (Math.random() > 0.98) {
+        triggerEpicEvent()
+      }
+    }, 5000)
+    return () => clearInterval(epicInterval)
+  }, [])
 
   // Repair factory over time with research bonuses
   useEffect(() => {
@@ -992,6 +1164,42 @@ useEffect(() => {
     
     return () => clearInterval(repairInterval)
   }, [factoryHealth, upgrades.systemPatch, research.nanotechnology])
+
+  const triggerEpicEvent = useCallback(() => {
+    const events = [
+      () => {
+        setBossBattle(true)
+        addMessage("> ⚠️ [BOSS BATTLE] QUANTUM DRAGON APPEARED!")
+      },
+      () => {
+        setTournament(true)
+        addMessage("> 🏆 [TOURNAMENT] GALACTIC CHAMPIONSHIP STARTED!")
+      },
+      () => {
+        setAlienInvasion(true)
+        addMessage("> 👽 [ALERT] ALIEN FLEET DETECTED!")
+      },
+      () => {
+        setSpaceBattle(true)
+        addMessage("> 🚀 [SPACE BATTLE] INTERCEPTOR SCRAMBLED!")
+      },
+      () => {
+        const creditsBonus = Math.floor(Math.random() * 500) + 100
+        setCredits(prev => prev + creditsBonus)
+        addMessage(`> 🎁 [GIFT] MYSTERIOUS BONUS: +${creditsBonus} CREDITS!`)
+      },
+      () => {
+        setSpecialAbilities(prev => ({
+          ...prev,
+          timeWarp: true
+        }))
+        addMessage("> ⏰ [POWER] TIME WARP UNLOCKED!")
+      }
+    ]
+    
+    const randomEvent = events[Math.floor(Math.random() * events.length)]
+    randomEvent()
+  }, [addMessage])
 
   // Scan line animation
   useEffect(() => {
@@ -1073,72 +1281,9 @@ useEffect(() => {
     }
   }
 
-   // Create particle explosion at click position
-   const createParticleExplosion = useCallback(() => {
-     if (!particleEffects) return
-     
-     const colors = ['#00ff88', '#00d9ff', '#ff006e', '#9d00ff', '#ffea00']
-     const particleContainer = document.createElement('div')
-     particleContainer.className = 'particle-container'
-     document.body.appendChild(particleContainer)
-     
-     for (let i = 0; i < 20; i++) {
-       const particle = document.createElement('div')
-       particle.style.position = 'absolute'
-       particle.style.left = '50%'
-       particle.style.top = '50%'
-       particle.style.width = '4px'
-       particle.style.height = '4px'
-       particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
-       particle.style.borderRadius = '50%'
-       particle.style.pointerEvents = 'none'
-       particle.style.boxShadow = `0 0 10px ${particle.style.backgroundColor}`
-       
-       const angle = (Math.PI * 2 * i) / 20
-       const velocity = 50 + Math.random() * 100
-       const lifetime = 500 + Math.random() * 500
-     
-       particle.style.transform = `translate(-50%, -50%)`
-       
-       particleContainer.appendChild(particle)
-       
-       let startTime = Date.now()
-       const animate = () => {
-         const elapsed = Date.now() - startTime
-         if (elapsed > lifetime) {
-           particle.remove()
-           return
-         }
-         
-         const progress = elapsed / lifetime
-         const distance = velocity * progress
-         const opacity = 1 - progress
-         
-         particle.style.transform = `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px))`
-         particle.style.opacity = opacity.toString()
-         
-         requestAnimationFrame(animate)
-       }
-       
-       requestAnimationFrame(animate)
-     }
-     
-     setTimeout(() => {
-       particleContainer.remove()
-     }, 1500)
-   }, [particleEffects])
 
-   // Play sound effect placeholder with visual feedback
-     const playSound = (soundType: string) => {
-       if (!soundEnabled) return
 
-       // Visual feedback for sound
-       setLastAction(soundType)
-       setTimeout(() => setLastAction(''), 500)
 
-       // Sound implementation would go here
-       console.log(`Playing sound: ${soundType}`)
-     }
 
   // ASCII art for different factory states with galaxy effects
   const getFactoryArt = () => {
@@ -1450,14 +1595,15 @@ useEffect(() => {
              {/* Flashing cursor animation */}
              <div className="absolute right-2 top-2 w-2 h-4 bg-green-400 animate-pulse"></div>
              
-              <pre className="text-xs sm:text-sm relative z-10 neon-glow">
-{`╔═══════════════════════════════════╗
- ║ ◯ FACTORY 404 TERMINAL v1.${corruptionLevel}.${upgrades.systemPatch} ◯ ║
- ╠═══════════════════════════════════╣
- ║ ⚡ CLICKS: ${clicks.toString().padStart(6)} │ 💰 CREDITS: ${credits.toString().padStart(6)} ║
- ║ 📦 ITEMS: ${items.length.toString().padStart(7)} │ ❤️  HEALTH: [${'█'.repeat(Math.floor(factoryHealth/10))}${'░'.repeat(10 - Math.floor(factoryHealth/10))}] ║
- ║ ☠️  CORRUPTION: ${corruptionLevel}/3 │ 🤖 AUTOMATION: ${autoClickers} ║
- ╚═══════════════════════════════════╝`}
+              <pre className="text-xs sm:text-sm relative z-10 neon-glow holographic">
+{`╔══════════════════════════════════════╗
+  ║ ◯ EPIC FACTORY 404 v${epicLevel}.${corruptionLevel}.${upgrades.systemPatch} ◯ ║
+  ╠══════════════════════════════════════╣
+  ║ ⚡ CLICKS: ${clicks.toString().padStart(6)} │ 💰 CREDITS: ${credits.toString().padStart(6)} ║
+  ║ 📦 ITEMS: ${items.length.toString().padStart(7)} │ ❤️  HEALTH: [${'█'.repeat(Math.floor(factoryHealth/10))}${'░'.repeat(10 - Math.floor(factoryHealth/10))}] ║
+  ║ ☠️  CORRUPTION: ${corruptionLevel}/3 │ 🤖 AUTOMATION: ${autoClickers} ║
+  ║ 🔥 COMBO: ×${megaCombo} │ 🏆 LEVEL: ${epicLevel} │ 🎯 RANK: ${tournamentRank} ║
+  ╚══════════════════════════════════════╝`}
               </pre>
            </div>
         </div>
@@ -1526,9 +1672,9 @@ useEffect(() => {
                   <span className="sm:hidden relative z-10 transition-colors duration-300">
                     {isLoading ? '⚡' : 'ASSEMBLE'}
                   </span>
-                  <span className="text-xs ml-1 sm:ml-2 relative z-10 transition-colors duration-300 animate-pulse">
-                    {1 + (upgrades.overclock * 2) + (upgrades.neuralNetwork * 5)}x
-                  </span>
+                   <span className="text-xs ml-1 sm:ml-2 relative z-10 transition-colors duration-300 animate-pulse text-yellow-400">
+                     ×{Math.min(megaCombo, 10)} {1 + (upgrades.overclock * 2) + (upgrades.neuralNetwork * 5)}x
+                   </span>
                 </button>
               
                {/* Upgrades */}
@@ -1641,12 +1787,85 @@ useEffect(() => {
           </div>
         </div>
         
-        {/* Inventory with ASCII styling */}
-        <div className="mt-4 border border-green-800 p-2">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="text-sm">[ ITEM INVENTORY ]</h3>
-            <span className="text-xs">Capacity: {items.length}/1000</span>
-          </div>
+         {/* Boss Battle UI */}
+         {bossBattle && (
+           <div className="mt-4 border border-red-400 p-2 bg-red-900 bg-opacity-20 animate-system-overload">
+             <div className="flex justify-between items-center mb-2">
+               <h3 className="text-sm text-red-400 animate-rainbow-glow">[🐉 BOSS BATTLE 🐉]</h3>
+               <span className="text-xs text-red-400">Health: {bossHealth}/1000</span>
+             </div>
+             <div className="w-full bg-gray-800 rounded-full h-4 mb-2">
+               <div 
+                 className="bg-gradient-to-r from-red-400 to-red-600 h-4 rounded-full transition-all duration-300 animate-electric-arc"
+                 style={{ width: `${(bossHealth / 1000) * 100}%` }}
+               />
+             </div>
+             <button 
+               onClick={attackBoss}
+               className="w-full border border-red-400 text-red-400 p-2 hover:bg-red-400 hover:text-black cyber-button animate-pulse"
+             >
+               ⚔️ [ATTACK] - DEAL DAMAGE
+             </button>
+           </div>
+         )}
+
+         {/* Tournament Status */}
+         {tournament && (
+           <div className="mt-4 border border-yellow-400 p-2 bg-yellow-900 bg-opacity-20">
+             <div className="flex justify-between items-center mb-2">
+               <h3 className="text-sm text-yellow-400">[🏆 GALACTIC TOURNAMENT 🏆]</h3>
+               <span className="text-xs text-yellow-400">Rank: {tournamentRank}</span>
+             </div>
+             <div className="text-xs text-yellow-300">
+               Double credits active! Climb the leaderboard!
+             </div>
+           </div>
+         )}
+
+         {/* Special Abilities */}
+         {(specialAbilities.timeWarp || specialAbilities.matterDuplicator || specialAbilities.realityHack) && (
+           <div className="mt-4 border border-purple-400 p-2 bg-purple-900 bg-opacity-20">
+             <h3 className="text-sm text-purple-400 mb-2">[✨ SPECIAL ABILITIES ✨]</h3>
+             <div className="flex flex-wrap gap-2">
+               {specialAbilities.timeWarp && (
+                 <span className="text-xs border border-purple-400 px-2 py-1">⏰ Time Warp</span>
+               )}
+               {specialAbilities.matterDuplicator && (
+                 <span className="text-xs border border-purple-400 px-2 py-1">🔄 Matter Duplicator</span>
+               )}
+               {specialAbilities.realityHack && (
+                 <span className="text-xs border border-purple-400 px-2 py-1">🌌 Reality Hack</span>
+               )}
+             </div>
+           </div>
+         )}
+
+         {/* Alien Invasion Alert */}
+         {alienInvasion && (
+           <div className="mt-4 border border-orange-400 p-2 bg-orange-900 bg-opacity-20 animate-rainbow-glow">
+             <h3 className="text-sm text-orange-400">[👽 ALIEN INVASION DETECTED 👽]</h3>
+             <div className="text-xs text-orange-300">
+               Hostile forces approaching! Defend the factory!
+             </div>
+           </div>
+         )}
+
+         {/* Space Battle Status */}
+         {spaceBattle && (
+           <div className="mt-4 border border-blue-400 p-2 bg-blue-900 bg-opacity-20 animate-electric-arc">
+             <h3 className="text-sm text-blue-400">[🚀 SPACE BATTLE ACTIVE 🚀]</h3>
+             <div className="text-xs text-blue-300">
+               Engaging enemy forces! Combat bonuses active!
+             </div>
+           </div>
+         )}
+
+         {/* Inventory with ASCII styling */}
+         <div className="mt-4 border border-green-800 p-2">
+           <div className="flex justify-between items-center mb-2">
+             <h3 className="text-sm">[ ITEM INVENTORY ]</h3>
+             <span className="text-xs">Capacity: {items.length}/1000</span>
+           </div>
           <div className="flex flex-wrap gap-1 max-h-32 overflow-y-auto">
             {items.length > 0 ? (
               items.map((item, i) => (
@@ -2247,75 +2466,48 @@ useEffect(() => {
             </div>
           )}
 
-           {/* Victory modal */}
-           {showVictory && (
-            <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-20 animate-fade-in">
-              <div className="bg-black border-2 border-purple-400 p-4 max-w-2xl relative text-center overflow-hidden animate-slide-up animate-pulse">
-               {/* Animated cosmic background */}
-               <div className="absolute inset-0 opacity-20">
-                 <div 
-                   className="absolute inset-0"
-                   style={{
-                     animation: 'galaxy-swirl 10s linear infinite'
-                   }}
-                 >
-                   <pre className="text-purple-400 text-xs">
-{`◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯
-◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯
-◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯
-◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯
-◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯
-◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯`}
-                   </pre>
-                 </div>
-               </div>
-               
-               <div className="relative z-10">
-                 <div className="flex justify-between items-center mb-4">
-                   <h3 className="text-lg">[ ◯ QUANTUM SINGULARITY ACHIEVED ◯ ]</h3>
-                   <button 
-                     onClick={() => setShowVictory(false)}
-                     className="border border-purple-400 px-2 hover:bg-purple-400 hover:text-black"
-                   >
-                     ✕
-                   </button>
-                 </div>
-                 
-                 <div className="text-sm space-y-4">
-                   <pre className="text-purple-400 text-xs whitespace-pre animate-pulse">
-                     {getGalaxyArt()}
-                   </pre>
-                   
-                   <p className="text-purple-300">◯ CONGRATULATIONS ENGINEER ◯</p>
-                   <p>Youve pushed FACTORY 404 beyond its design limits.</p>
-                   <p>The quantum singularity drive is now self-sustaining.</p>
-                   <p>Your work here is complete.</p>
-                   <p className="text-purple-400 animate-pulse">✧ THANK YOU FOR PLAYING ✧</p>
-                   
-                   <div className="mt-4 text-xs text-purple-600">
-                     <p>CREATED BY RAFI ADNAN</p>
-                     <a 
-                       href="https://rafiadnan.my.id/" 
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       className="hover:text-purple-400 underline"
-                     >
-                       https://rafiadnan.my.id/
-                     </a>
-                     <p className="mt-2">Check out my other projects:</p>
-                     <div className="flex justify-center gap-2 mt-1">
-                       <a href="#" className="hover:text-purple-400">◯ GitHub</a>
-                       <a href="#" className="hover:text-purple-400">✧ Portfolio</a>
-                       <a href="#" className="hover:text-purple-400">⚛ Blog</a>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-               
-               <div className="absolute left-0 right-0 h-px bg-purple-400 opacity-20 animate-scan"></div>
-             </div>
-           </div>
-           )}
+          {/* EPIC Victory Screen */}
+          {showVictory && (
+            <div className="victory-screen">
+              <div className="bg-black border-4 border-yellow-400 p-8 max-w-2xl relative animate-victory-celebration text-center holographic">
+                <h2 className="text-4xl mb-6 text-yellow-400 neon-glow animate-rainbow-glow">🏆 EPIC VICTORY! 🏆</h2>
+                <div className="mb-6 text-2xl animate-pulse">
+                  YOU ARE THE ULTIMATE QUANTUM FACTORY MASTER!
+                </div>
+                <div className="grid grid-cols-2 gap-4 mb-6 text-lg">
+                  <div className="border border-yellow-400 p-2">
+                    <div className="text-yellow-400">EPIC LEVEL</div>
+                    <div className="text-2xl animate-bounce-glow">{epicLevel}</div>
+                  </div>
+                  <div className="border border-yellow-400 p-2">
+                    <div className="text-yellow-400">TOTAL ITEMS</div>
+                    <div className="text-2xl animate-bounce-glow">{items.length}</div>
+                  </div>
+                  <div className="border border-yellow-400 p-2">
+                    <div className="text-yellow-400">CREDITS EARNED</div>
+                    <div className="text-2xl animate-bounce-glow">{credits}</div>
+                  </div>
+                  <div className="border border-yellow-400 p-2">
+                    <div className="text-yellow-400">ACHIEVEMENTS</div>
+                    <div className="text-2xl animate-bounce-glow">
+                      {Object.values(achievements).filter(Boolean).length + 
+                       Object.values(hiddenAchievements).filter(Boolean).length}
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-6 text-green-400 animate-pulse">
+                  <div>🎉 HACKATHON GAME OF THE YEAR! 🎉</div>
+                  <div>🌟 YOU&apos;RE AN INTERDIMENSIONAL LEGEND! 🌟</div>
+                </div>
+                <button 
+                  onClick={() => setShowVictory(false)}
+                  className="border border-yellow-400 px-6 py-3 hover:bg-yellow-400 hover:text-black cyber-button text-lg font-bold animate-rainbow-glow"
+                >
+                  🎮 CONTINUE YOUR LEGACY 🎮
+                </button>
+              </div>
+            </div>
+          )}
          </div>
        </div>
      )
