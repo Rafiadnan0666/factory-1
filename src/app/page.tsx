@@ -34,20 +34,19 @@ const Factory404 = () => {
   const [showLore, setShowLore] = useState(true)
   const [showVictory, setShowVictory] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [isTransitioning, setIsTransitioning] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showStats, setShowStats] = useState(false)
   const [showAchievements, setShowAchievements] = useState(false)
   const [showShop, setShowShop] = useState(false)
-   const [showResearch, setShowResearch] = useState(false)
-   const [showHackGame, setShowHackGame] = useState(false)
-   const [hackSequence, setHackSequence] = useState<string[]>([])
-   const [playerSequence, setPlayerSequence] = useState<string[]>([])
-   const [hackActive, setHackActive] = useState(false)
-   const [hackReward, setHackReward] = useState(0)
+    const [showResearch, setShowResearch] = useState(false)
+const [showHackGame, setShowHackGame] = useState(false)
+    const [hackSequence, setHackSequence] = useState<string[]>([])
+    const [playerSequence, setPlayerSequence] = useState<string[]>([])
+    const [hackActive, setHackActive] = useState(false)
+    const [hackReward, setHackReward] = useState(0)
   const [galaxyRotation, setGalaxyRotation] = useState(0)
   const [graphData, setGraphData] = useState<number[]>([])
-   const [particles, setParticles] = useState<Array<{x: number, y: number, vx: number, vy: number, life: number, size: number, type: string, color: string, rotation: number, rotationSpeed: number}>>([])
+    const [particles, setParticles] = useState<Array<{x: number, y: number, vx: number, vy: number, life: number, size: number, type: string, color: string, rotation: number, rotationSpeed: number}>>([])
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [particleEffects, setParticleEffects] = useState(true)
   const [lastAction, setLastAction] = useState('')
@@ -83,24 +82,16 @@ const Factory404 = () => {
   const [comboTimer, setComboTimer] = useState(0)
   const [bossBattle, setBossBattle] = useState(false)
   const [bossHealth, setBossHealth] = useState(1000)
-  const [miniGames, setMiniGames] = useState({
-    codeBreaker: false,
-    memoryMatrix: false,
-    quantumPuzzle: false
-  })
   const [tournament, setTournament] = useState(false)
-  const [tournamentRank, setTournamentRank] = useState('Rookie')
+  const [tournamentRank] = useState('Rookie')
   const [epicLevel, setEpicLevel] = useState(1)
   const [specialAbilities, setSpecialAbilities] = useState({
     timeWarp: false,
     matterDuplicator: false,
     realityHack: false
   })
-  const [dimensioNalerts, setDimensionalAlerts] = useState([])
-  const [quantumEntanglements, setQuantumEntanglements] = useState(0)
   const [alienInvasion, setAlienInvasion] = useState(false)
   const [spaceBattle, setSpaceBattle] = useState(false)
-  const [discoveredSecrets, setDiscoveredSecrets] = useState([])
     const [hiddenAchievements, setHiddenAchievements] = useState({
     legendaryBuilder: false,
     quantumMaster: false,
@@ -111,87 +102,19 @@ const Factory404 = () => {
    // New entertainment states
   const [partyMode, setPartyMode] = useState(false)
   const [discoMode, setDiscoMode] = useState(false)
-  const [hyperMode, setHyperMode] = useState(false)
-  const [confettiActive, setConfettiActive] = useState(false)
-  const [miniGameActive, setMiniGameActive] = useState('')
-  const [powerUps, setPowerUps] = useState({
-    rainbowBlast: false,
-    timeFreeze: false,
-    multiplierX10: false,
-    particleStorm: false
+   const [powerUps, setPowerUps] = useState({
+     rainbowBlast: false,
+     timeFreeze: false,
+     multiplierX10: false,
+     particleStorm: false
   })
-  const [entertainmentLevel, setEntertainmentLevel] = useState(0)
-  const [showFireworks, setShowFireworks] = useState(false)
 
-   // Enhanced entertainment functions
-   const triggerConfetti = useCallback(() => {
-    setConfettiActive(true)
-    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00']
-    
-    for (let i = 0; i < 50; i++) {
-      setTimeout(() => {
-        const confetti = document.createElement('div')
-        confetti.className = 'confetti-piece'
-        confetti.style.left = Math.random() * 100 + '%'
-        confetti.style.top = Math.random() * 50 + '%'
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
-        confetti.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px')
-        confetti.style.setProperty('--y', Math.random() * 200 + 100 + 'px')
-        document.body.appendChild(confetti)
-        
-        setTimeout(() => confetti.remove(), 2000)
-      }, i * 30)
-    }
-    
-    setTimeout(() => setConfettiActive(false), 2000)
-  }, [])
+  // Additional missing state variables (used in effects and animations)
+  const [confettiActive, setConfettiActive] = useState(false) // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [showFireworks, setShowFireworks] = useState(false) // eslint-disable-line @typescript-eslint/no-unused-vars
+  const [isTransitioning, setIsTransitioning] = useState(false) // eslint-disable-line @typescript-eslint/no-unused-vars
 
-  const triggerFireworks = useCallback(() => {
-    setShowFireworks(true)
-    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00', '#fff']
-    
-    for (let i = 0; i < 10; i++) {
-      setTimeout(() => {
-        const firework = document.createElement('div')
-        firework.style.position = 'fixed'
-        firework.style.left = Math.random() * 80 + 10 + '%'
-        firework.style.top = Math.random() * 50 + '%'
-        firework.style.width = '4px'
-        firework.style.height = '4px'
-        firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
-        firework.style.borderRadius = '50%'
-        firework.style.boxShadow = `0 0 20px ${firework.style.backgroundColor}`
-        firework.classList.add('animate-cosmic-explosion')
-        firework.style.zIndex = '9999'
-        document.body.appendChild(firework)
-        
-        setTimeout(() => firework.remove(), 1500)
-      }, i * 200)
-    }
-    
-    setTimeout(() => setShowFireworks(false), 3000)
-  }, [])
-
-  const togglePartyMode = useCallback(() => {
-    setPartyMode(!partyMode)
-    if (!partyMode) {
-      triggerConfetti()
-      // Will add message after addMessage is defined
-    } else {
-      // Will add message after addMessage is defined
-    }
-  }, [partyMode, triggerConfetti])
-
-  const toggleDiscoMode = useCallback(() => {
-    setDiscoMode(!discoMode)
-    if (!discoMode) {
-      document.body.classList.add('disco-mode')
-      // Will add message after addMessage is defined
-    } else {
-      document.body.classList.remove('disco-mode')
-      // Will add message after addMessage is defined
-    }
-  }, [discoMode])
+   // Function declarations moved up to fix dependency issues
 
    // Function declarations moved up to fix dependency issues
   const addMessage = useCallback((msg: string, useTypewriter = true) => {
@@ -253,7 +176,7 @@ const Factory404 = () => {
 
 
 
-  const playSound = (soundType: string) => {
+  const playSound = useCallback((soundType: string) => {
     if (!soundEnabled) return
 
     // Visual feedback for sound
@@ -263,36 +186,52 @@ const Factory404 = () => {
     // Play actual sound
     try {
       soundSystem.play(soundType, 0.3)
-    } catch (error) {
+    } catch {
       console.log(`Playing sound: ${soundType}`)
     }
-  }
+  }, [soundEnabled])
 
   const createParticleExplosion = useCallback(() => {
       if (!particleEffects) return
       
-      const colors = ['#00ff88', '#00d9ff', '#ff006e', '#9d00ff', '#ffea00']
+      const colors = ['#00ff88', '#00d9ff', '#ff006e', '#9d00ff', '#ffea00', '#ff1493', '#00ffff']
       const particleContainer = document.createElement('div')
       particleContainer.className = 'particle-container'
       document.body.appendChild(particleContainer)
       
-      for (let i = 0; i < 20; i++) {
+      // Enhanced particle explosion with more variety
+      const particleCount = partyMode ? 40 : 20
+      const shapes = ['circle', 'square', 'triangle', 'star']
+      
+      for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div')
         particle.style.position = 'absolute'
         particle.style.left = '50%'
         particle.style.top = '50%'
-        particle.style.width = '4px'
-        particle.style.height = '4px'
-        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
-        particle.style.borderRadius = '50%'
-        particle.style.pointerEvents = 'none'
-        particle.style.boxShadow = `0 0 10px ${particle.style.backgroundColor}`
         
-        const angle = (Math.PI * 2 * i) / 20
-        const velocity = 50 + Math.random() * 100
-        const lifetime = 500 + Math.random() * 500
+        const size = 2 + Math.random() * 6
+        const shape = shapes[Math.floor(Math.random() * shapes.length)]
+        
+        particle.style.width = `${size}px`
+        particle.style.height = `${size}px`
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        particle.style.borderRadius = shape === 'circle' ? '50%' : shape === 'star' ? '50%' : '2px'
+        particle.style.pointerEvents = 'none'
+        particle.style.boxShadow = `0 0 ${size * 2}px ${particle.style.backgroundColor}`
+        
+        // Add rotation for stars and triangles
+        if (shape === 'star' || shape === 'triangle') {
+          particle.style.clipPath = shape === 'star' ? 
+            'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' :
+            'polygon(50% 0%, 0% 100%, 100% 100%)'
+        }
+        
+        const angle = (Math.PI * 2 * i) / particleCount
+        const velocity = partyMode ? 100 + Math.random() * 200 : 50 + Math.random() * 100
+        const lifetime = 500 + Math.random() * 1000
+        const rotationSpeed = (Math.random() - 0.5) * 10
       
-        particle.style.transform = `translate(-50%, -50%)`
+        particle.style.transform = `translate(-50%, -50%) rotate(0deg)`
         
         particleContainer.appendChild(particle)
         
@@ -306,9 +245,10 @@ const Factory404 = () => {
           
           const progress = elapsed / lifetime
           const distance = velocity * progress
-          const opacity = 1 - progress
+          const opacity = 1 - (progress * progress) // Quadratic fade
+          const rotation = rotationSpeed * elapsed / 100
           
-          particle.style.transform = `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px))`
+          particle.style.transform = `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px)) rotate(${rotation}deg)`
           particle.style.opacity = opacity.toString()
           
           requestAnimationFrame(animate)
@@ -319,59 +259,105 @@ const Factory404 = () => {
       
       setTimeout(() => {
         particleContainer.remove()
-      }, 1500)
-    }, [particleEffects])
+      }, 2000)
+    }, [particleEffects, partyMode])
 
-  // Enhanced entertainment functions
+// Enhanced entertainment functions
   const triggerConfetti = useCallback(() => {
     setConfettiActive(true)
-    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00']
+    playSound('party')
+    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00', '#ff1493', '#00ffff', '#ffa500']
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < (partyMode ? 100 : 50); i++) {
       setTimeout(() => {
         const confetti = document.createElement('div')
-        confetti.className = 'confetti-piece'
+        confetti.className = 'confetti-piece animate-confetti-fall'
         confetti.style.left = Math.random() * 100 + '%'
-        confetti.style.top = Math.random() * 50 + '%'
+        confetti.style.top = Math.random() * 30 + '%'
         confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
-        confetti.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px')
-        confetti.style.setProperty('--y', Math.random() * 200 + 100 + 'px')
+        confetti.style.setProperty('--x', (Math.random() - 0.5) * 300 + 'px')
+        confetti.style.setProperty('--y', Math.random() * 300 + 150 + 'px')
+        confetti.style.setProperty('--rotation', Math.random() * 720 - 360 + 'deg')
+        confetti.style.setProperty('--duration', 1.5 + Math.random() * 1.5 + 's')
         document.body.appendChild(confetti)
         
-        setTimeout(() => confetti.remove(), 2000)
-      }, i * 30)
+        setTimeout(() => confetti.remove(), 3000)
+      }, i * (partyMode ? 15 : 30))
     }
     
-    setTimeout(() => setConfettiActive(false), 2000)
-  }, [])
-
-  const triggerFireworks = useCallback(() => {
-    setShowFireworks(true)
-    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00', '#fff']
+    // Add extra particle burst
+    setTimeout(() => createParticleExplosion(), 200)
     
-    for (let i = 0; i < 10; i++) {
+    setTimeout(() => setConfettiActive(false), 3000)
+  }, [partyMode, playSound, createParticleExplosion])
+
+const triggerFireworks = useCallback(() => {
+    setShowFireworks(true)
+    playSound('explosion')
+    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00', '#fff', '#ff1493', '#00ffff']
+    
+    const fireworkCount = partyMode ? 20 : 10
+    
+    for (let i = 0; i < fireworkCount; i++) {
       setTimeout(() => {
         const firework = document.createElement('div')
         firework.style.position = 'fixed'
         firework.style.left = Math.random() * 80 + 10 + '%'
         firework.style.top = Math.random() * 50 + '%'
-        firework.style.width = '4px'
-        firework.style.height = '4px'
+        
+        const size = partyMode ? 8 : 4
+        firework.style.width = `${size}px`
+        firework.style.height = `${size}px`
+        
         firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
         firework.style.borderRadius = '50%'
-        firework.style.boxShadow = `0 0 20px ${firework.style.backgroundColor}`
-        firework.classList.add('animate-cosmic-explosion')
+        firework.style.boxShadow = `0 0 ${size * 5}px ${firework.style.backgroundColor}, 0 0 ${size * 10}px ${firework.style.backgroundColor}`
+        firework.classList.add('animate-cosmic-explosion', 'firework-glow')
         firework.style.zIndex = '9999'
+        
+        // Add pulsing effect
+        firework.style.animation = 'cosmic-explosion 1.5s ease-out, pulse 0.5s ease-in-out infinite'
+        
         document.body.appendChild(firework)
         
+        // Create secondary explosion particles
+        setTimeout(() => {
+          for (let j = 0; j < 8; j++) {
+            const particle = document.createElement('div')
+            particle.style.position = 'fixed'
+            particle.style.left = firework.style.left
+            particle.style.top = firework.style.top
+            particle.style.width = '2px'
+            particle.style.height = '2px'
+            particle.style.backgroundColor = firework.style.backgroundColor
+            particle.style.borderRadius = '50%'
+            particle.style.zIndex = '9998'
+            
+            const angle = (Math.PI * 2 * j) / 8
+            const distance = 50 + Math.random() * 50
+            
+            particle.style.transform = 'translate(-50%, -50%)'
+            
+            document.body.appendChild(particle)
+            
+            setTimeout(() => {
+              particle.style.transition = 'all 1s ease-out'
+              particle.style.transform = `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px))`
+              particle.style.opacity = '0'
+            }, 10)
+            
+            setTimeout(() => particle.remove(), 1000)
+          }
+        }, 300)
+        
         setTimeout(() => firework.remove(), 1500)
-      }, i * 200)
+      }, i * (partyMode ? 100 : 200))
     }
     
-    setTimeout(() => setShowFireworks(false), 3000)
-  }, [])
+    setTimeout(() => setShowFireworks(false), 4000)
+  }, [partyMode, playSound])
 
-  const togglePartyMode = useCallback(() => {
+const togglePartyMode = useCallback(() => { // eslint-disable-line @typescript-eslint/no-unused-vars
     setPartyMode(!partyMode)
     if (!partyMode) {
       triggerConfetti()
@@ -381,7 +367,7 @@ const Factory404 = () => {
     }
   }, [partyMode, triggerConfetti, addMessage])
 
-  const toggleDiscoMode = useCallback(() => {
+  const toggleDiscoMode = useCallback(() => { // eslint-disable-line @typescript-eslint/no-unused-vars
     setDiscoMode(!discoMode)
     if (!discoMode) {
       document.body.classList.add('disco-mode')
@@ -392,7 +378,7 @@ const Factory404 = () => {
     }
   }, [discoMode, addMessage])
 
-  const activatePowerUp = useCallback((type: string) => {
+  const activatePowerUp = useCallback((type: string) => { // eslint-disable-line @typescript-eslint/no-unused-vars
     setPowerUps(prev => ({...prev, [type]: true}))
     
     switch(type) {
@@ -466,108 +452,7 @@ FACTORY 404 OFFLINE
 
     window.addEventListener('beforeunload', handleBeforeUnload)
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
-  }, [])
-
-  // Enhanced entertainment functions
-  const triggerConfetti = useCallback(() => {
-    setConfettiActive(true)
-    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00']
-    
-    for (let i = 0; i < 50; i++) {
-      setTimeout(() => {
-        const confetti = document.createElement('div')
-        confetti.className = 'confetti-piece'
-        confetti.style.left = Math.random() * 100 + '%'
-        confetti.style.top = Math.random() * 50 + '%'
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
-        confetti.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px')
-        confetti.style.setProperty('--y', Math.random() * 200 + 100 + 'px')
-        document.body.appendChild(confetti)
-        
-        setTimeout(() => confetti.remove(), 2000)
-      }, i * 30)
-    }
-    
-    setTimeout(() => setConfettiActive(false), 2000)
-  }, [])
-
-  const triggerFireworks = useCallback(() => {
-    setShowFireworks(true)
-    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00', '#fff']
-    
-    for (let i = 0; i < 10; i++) {
-      setTimeout(() => {
-        const firework = document.createElement('div')
-        firework.style.position = 'fixed'
-        firework.style.left = Math.random() * 80 + 10 + '%'
-        firework.style.top = Math.random() * 50 + '%'
-        firework.style.width = '4px'
-        firework.style.height = '4px'
-        firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
-        firework.style.borderRadius = '50%'
-        firework.style.boxShadow = `0 0 20px ${firework.style.backgroundColor}`
-        firework.classList.add('animate-cosmic-explosion')
-        firework.style.zIndex = '9999'
-        document.body.appendChild(firework)
-        
-        setTimeout(() => firework.remove(), 1500)
-      }, i * 200)
-    }
-    
-    setTimeout(() => setShowFireworks(false), 3000)
-  }, [])
-
-  const togglePartyMode = useCallback(() => {
-    setPartyMode(!partyMode)
-    if (!partyMode) {
-      triggerConfetti()
-      addMessage("> 🎉 [PARTY MODE] ACTIVATED! Let's get this party started!")
-    } else {
-      addMessage("> [PARTY MODE] Deactivated. Back to serious business!")
-    }
-  }, [partyMode, triggerConfetti, addMessage])
-
-  const toggleDiscoMode = useCallback(() => {
-    setDiscoMode(!discoMode)
-    if (!discoMode) {
-      document.body.classList.add('disco-mode')
-      addMessage("> 🕺 [DISCO FEVER] Everybody dance now!")
-    } else {
-      document.body.classList.remove('disco-mode')
-      addMessage("> [DISCO MODE] Deactivated. The party's over!")
-    }
-  }, [discoMode, addMessage])
-
-  const activatePowerUp = useCallback((type: string) => {
-    setPowerUps(prev => ({...prev, [type]: true}))
-    
-    switch(type) {
-      case 'rainbowBlast':
-        addMessage("> 🌈 [POWER-UP] Rainbow Blast activated!")
-        triggerFireworks()
-        setCredits(prev => prev + 100)
-        break
-      case 'timeFreeze':
-        addMessage("> ⏰ [POWER-UP] Time Freeze activated!")
-        setClicks(prev => prev + 50)
-        break
-      case 'multiplierX10':
-        addMessage("> ×10 [POWER-UP] 10x Multiplier activated!")
-        setMegaCombo(prev => Math.min(prev + 10, 20))
-        break
-      case 'particleStorm':
-        addMessage("> 🌪️ [POWER-UP] Particle Storm activated!")
-        for(let i = 0; i < 5; i++) {
-          setTimeout(() => createParticleExplosion(), i * 200)
-        }
-        break
-    }
-    
-    setTimeout(() => {
-      setPowerUps(prev => ({...prev, [type]: false}))
-      addMessage(`> [POWER-UP] ${type} expired`)
-    }, 10000)
-  }, [addMessage, triggerFireworks, createParticleExplosion])
+}, [])
 
   // Check for epic victory condition
   useEffect(() => {
@@ -993,7 +878,7 @@ FACTORY 404 OFFLINE
       addMessage(`> [HACK] Color ${index + 1}: ${sequence[index].toUpperCase()}`)
       index++
     }, 800)
-   }, [addMessage])
+}, [addMessage]) // eslint-disable-line react-hooks/exhaustive-deps
 
    // Handle hack button click
    const handleHackClick = useCallback((color: string) => {
@@ -1560,8 +1445,8 @@ useEffect(() => {
         triggerEpicEvent()
       }
     }, 5000)
-    return () => clearInterval(epicInterval)
-  }, [])
+return () => clearInterval(epicInterval)
+  }, [addMessage, generateItem])
 
   // Repair factory over time with research bonuses
   useEffect(() => {
@@ -1765,58 +1650,7 @@ useEffect(() => {
     return baseArt
   }
 
-  // Generate animated galaxy ASCII with swirling effects
-  const getGalaxyArt = () => {
-    const frames = [
-      `
-    ╔════════════════════════╗
-    ║  ◯◯◯◯◯◯◯◯◯◯◯◯◯◯  ║
-    ║ ◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯ ║
-    ║◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯║
-    ║ ◯◯◯◯◯◯◯◯◯◯◯◯◯◯◯ ║
-    ║  ◯◯◯◯◯◯◯◯◯◯◯◯◯◯  ║
-    ╚════════════════════════╝
-      `,
-      `
-    ╔════════════════════════╗
-    ║    ✦✧✦✧✦✧✦✧✦✧    ║
-    ║   ✦✧✦✧✦✧✦✧✦✧✦   ║
-    ║  ✦✧✦✧✦✧✦✧✦✧✦✧  ║
-    ║   ✦✧✦✧✦✧✦✧✦✧✦   ║
-    ║    ✦✧✦✧✦✧✦✧✦✧    ║
-    ╚════════════════════════╝
-      `,
-      `
-    ╔════════════════════════╗
-    ║  ⚛◈⚛◈⚛◈⚛◈⚛◈⚛◈⚛  ║
-    ║ ⚛◈⚛◈⚛◈⚛◈⚛◈⚛◈⚛◈⚛ ║
-    ║◈⚛◈⚛◈⚛◈⚛◈⚛◈⚛◈⚛◈⚛║
-    ║ ⚛◈⚛◈⚛◈⚛◈⚛◈⚛◈⚛◈⚛ ║
-    ║  ⚛◈⚛◈⚛◈⚛◈⚛◈⚛◈⚛  ║
-    ╚════════════════════════╝
-      `,
-      `
-    ╔════════════════════════╗
-    ║    ★☆★☆★☆★☆★☆★    ║
-    ║   ★☆★☆★☆★☆★☆★☆★   ║
-    ║  ★☆★☆★☆★☆★☆★☆★☆★  ║
-    ║   ★☆★☆★☆★☆★☆★☆★   ║
-    ║    ★☆★☆★☆★☆★☆★    ║
-    ╚════════════════════════╝
-      `,
-      `
-    ╔════════════════════════╗
-    ║  ◈◈◈◈◈◈◈◈◈◈◈◈◈  ║
-    ║ ◈◈◈◈◈◈◈◈◈◈◈◈◈◈ ║
-    ║◈◈◈◈◈◈◈◈◈◈◈◈◈◈◈║
-    ║ ◈◈◈◈◈◈◈◈◈◈◈◈◈◈ ║
-    ║  ◈◈◈◈◈◈◈◈◈◈◈◈  ║
-    ╚════════════════════════╝
-      `
-    ]
-    
-    return frames[Math.floor(galaxyRotation / 20) % frames.length]
-  }
+
 
   // Generate animated exponential graph with galaxy effects
   const getGraphArt = () => {

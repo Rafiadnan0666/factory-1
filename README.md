@@ -1,4 +1,4 @@
-# 🏭 FACTORY 404 - Quantum Manufacturing Terminal
+#  FACTORY 404 - Quantum Manufacturing Terminal
 
 > **A simulated quantum manufacturing terminal where users command a futuristic production core in a retro-cyberpunk interface.**
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 🌟 Hero Description
+##  Hero Description
 
 **FACTORY 404** is an immersive, retro-futuristic terminal simulation that transports players to the year 2042, where they manage an experimental quantum manufacturing facility. As the operator of this cutting-edge production core, you must balance efficiency with stability while navigating the dangerous allure of quantum corruption.
 
@@ -14,39 +14,39 @@ The experience combines the nostalgic aesthetic of 1980s terminal interfaces wit
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
-### 🎮 **Quantum Command Engine**
+###  **Quantum Command Engine**
 - **Interactive Terminal Commands**: Execute sophisticated slash commands like `/create`, `/upgrade`, `/export`, `/diagnose`, and `/scan`
 - **AI Core Integration**: Query the built-in AI with `/ask-ai` for intelligent system analysis and recommendations
 - **Real-time Status Updates**: Live monitoring of factory health, corruption levels, and production metrics
 
-### 🌊 **Dynamic Event System**
+###  **Dynamic Event System**
 - **Random Critical Events**: React to reactor meltdowns, production boosts, and system corruption events
 - **AI Awakening Scenarios**: Experience moments when the AI core shows signs of consciousness
 - **Reality Distortions**: Handle quantum anomalies and temporal fluctuations
 - **Maintenance Emergencies**: Deploy repair drones and manage system stability
 
-### 🎨 **Immersive Terminal UX**
+###  **Immersive Terminal UX**
 - **Typewriter Effect**: Messages appear with authentic terminal typing animation
 - **CRT Monitor Effects**: Realistic screen curvature, scan lines, and phosphor glow
 - **Advanced Visual Polish**: Glow pulse effects, noise overlays, and glitch animations
 - **Shutdown Sequence**: Dramatic power-down animation when leaving the application
 
-### 💾 **Persistent World State**
+###  **Persistent World State**
 - **Auto-save System**: Your progress is automatically saved to localStorage
 - **Session Management**: Resume exactly where you left off
 - **Achievement Tracking**: Unlock milestones and track your factory's evolution
 - **Statistics Dashboard**: Comprehensive metrics on production efficiency and system performance
 
-### 🔬 **Research & Development**
+###  **Research & Development**
 - **Technology Tree**: Advance through nanotechnology, quantum computing, AI, dark matter, and time manipulation
 - **Upgrade Paths**: Multiple progression routes for assembly drones, quantum cores, neural networks, and singularity drives
 - **Corruption Mechanics**: Risk/reward system where pushing boundaries yields greater rewards but increased instability
 
 ---
 
-## 🛠️ Technical Implementation
+##  Technical Implementation
 
 ### **Core Technologies**
 - **Frontend Framework**: React 19.1.0 with Next.js 15.4.5
@@ -69,7 +69,7 @@ The experience combines the nostalgic aesthetic of 1980s terminal interfaces wit
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### **Prerequisites**
 - Node.js 18+ 
@@ -78,7 +78,7 @@ The experience combines the nostalgic aesthetic of 1980s terminal interfaces wit
 ### **Installation**
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/factory-404.git
+git clone https://github.com/rafiadnan0666/factory-404.git
 
 # Navigate to the project directory
 cd factory-404
@@ -101,7 +101,7 @@ npm start
 
 ---
 
-## 📖 How to Play
+##  How to Play
 
 ### **Basic Commands**
 ```
@@ -132,13 +132,13 @@ npm start
 
 ---
 
-## 🎯 Game Objectives
+##  Game Objectives
 
 ### **Primary Goals**
-- 🏆 **Produce 1000+ Items**: Become a master manufacturer
-- ⚡ **Achieve Singularity**: Unlock the ultimate quantum drive
-- 🧠 **AI Integration**: Fully awaken the AI core consciousness
-- 🌌 **Master Corruption**: Control reality without destroying it
+-  **Produce 1000+ Items**: Become a master manufacturer
+-  **Achieve Singularity**: Unlock the ultimate quantum drive
+-  **AI Integration**: Fully awaken the AI core consciousness
+-  **Master Corruption**: Control reality without destroying it
 
 ### **Achievement System**
 - **First Item**: Produce your initial quantum component
@@ -150,71 +150,7 @@ npm start
 
 ---
 
-## 🖼️ Screenshots & Demos
-
-### **Main Terminal Interface**
-![Terminal Interface](https://via.placeholder.com/800x600/000000/00ff00?text=FACTORY+404+TERMINAL)
-
-### **Command Execution**
-![Command Demo](https://via.placeholder.com/800x400/000000/00ff00?text=QUANTUM+COMMANDS)
-
-### **Event System**
-![Random Events](https://via.placeholder.com/800x400/000000/ff0000?text=REACTOR+MELTDOWN)
-
-### **Achievement Unlocked**
-![Victory Screen](https://via.placeholder.com/800x600/000000/ff00ff?text=SINGULARITY+ACHIEVED)
-
-*Note: Replace placeholder images with actual screenshots when available*
-
----
-
-## 🎬 Demo Video Script
-
-### **30-Second Demo Outline**
-
-**0:00-0:05** - Landing page with atmospheric boot sequence
-- Show terminal initialization and system messages
-- Display retro CRT effects and scan lines
-
-**0:05-0:15** - Command demonstration
-- Type `/help` to show available commands
-- Execute `/create quantum-core` to demonstrate item creation
-- Run `/ask-ai "analyze efficiency"` to showcase AI integration
-
-**0:15-0:25** - Event system showcase
-- Trigger reactor meltdown event with dramatic effects
-- Show production boost event with visual feedback
-- Demonstrate system corruption mechanics
-
-**0:25-0:35** - Advanced features
-- Display research tree and upgrade paths
-- Show achievement system and statistics
-- Demonstrate shutdown animation sequence
-
-**0:35-0:40** - Call to action
-- Display victory screen with singularity achievement
-- Show project information and credits
-
----
-
-## 🏆 Hackathon Strategy
-
-### **Competitive Advantages**
-1. **Technical Sophistication**: Complex simulation engine with multiple interconnected systems
-2. **Visual Polish**: Professional-grade animations and effects that create immersion
-3. **Innovative Gameplay**: Unique blend of retro aesthetics with modern game mechanics
-4. **Complete Experience**: Full game loop with progression, achievements, and multiple endings
-5. **Presentation Ready**: Comprehensive documentation and demo materials
-
-### **Scoring Categories**
-- **Creativity**: HIGH - Unique concept combining retro terminal with quantum themes
-- **Technical Implementation**: HIGH - Complex state management and animation systems
-- **Impact**: MEDIUM - Entertainment value with educational programming concepts
-- **Presentation**: HIGH - Professional polish and comprehensive documentation
-
----
-
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions to enhance FACTORY 404! Please follow these guidelines:
 
@@ -232,22 +168,22 @@ We welcome contributions to enhance FACTORY 404! Please follow these guidelines:
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 👥 Team
+##  Team
 
 **Created by Rafi Adnan**
 - **Portfolio**: [https://rafiadnan.my.id/](https://rafiadnan.my.id/)
-- **GitHub**: [@rafiadnan](https://github.com/rafiadnan)
-- **Email**: contact@rafiadnan.my.id
+- **GitHub**: [@rafiadnan](https://github.com/Rafiadnan0666)
+- **Email**: rafiadnan975@gmail.com
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Inspired by classic terminal games and cyberpunk aesthetics
 - Built with modern web technologies for optimal performance
@@ -256,7 +192,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🔮 Future Roadmap
+##  Future Roadmap
 
 ### **Planned Enhancements**
 - **Multiplayer Mode**: Collaborative factory management
@@ -274,4 +210,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**🌟 Thank you for experiencing FACTORY 404! The quantum future awaits your command. 🌟**
+** Thank you for experiencing FACTORY 404! The quantum future awaits your command. **
