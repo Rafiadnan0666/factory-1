@@ -70,6 +70,63 @@ class SoundSystem {
       comboData[i] = Math.sin(2 * Math.PI * (880 + t * 1760) * t) * Math.exp(-t * 3) * 0.6
     }
     this.sounds.set('combo', comboBuffer)
+
+    // Party sound
+    const partyBuffer = this.context.createBuffer(1, this.context.sampleRate * 0.8, this.context.sampleRate)
+    const partyData = partyBuffer.getChannelData(0)
+    for (let i = 0; i < partyData.length; i++) {
+      const t = i / this.context.sampleRate
+      partyData[i] = (Math.sin(2 * Math.PI * 523 * t) * 0.2 +
+                       Math.sin(2 * Math.PI * 659 * t) * 0.2 +
+                       Math.sin(2 * Math.PI * 784 * t) * 0.3 +
+                       Math.sin(2 * Math.PI * 1047 * t) * 0.3) * 
+                      Math.sin(t * Math.PI * 2) * 0.7
+    }
+    this.sounds.set('party', partyBuffer)
+
+    // Disco sound
+    const discoBuffer = this.context.createBuffer(1, this.context.sampleRate * 0.6, this.context.sampleRate)
+    const discoData = discoBuffer.getChannelData(0)
+    for (let i = 0; i < discoData.length; i++) {
+      const t = i / this.context.sampleRate
+      discoData[i] = (Math.sin(2 * Math.PI * 220 * t) * Math.sin(t * 20) +
+                       Math.sin(2 * Math.PI * 440 * t) * Math.sin(t * 15) +
+                       Math.sin(2 * Math.PI * 880 * t) * 0.3) * 0.6
+    }
+    this.sounds.set('disco', discoBuffer)
+
+    // Power-up sound
+    const powerUpBuffer = this.context.createBuffer(1, this.context.sampleRate * 0.4, this.context.sampleRate)
+    const powerUpData = powerUpBuffer.getChannelData(0)
+    for (let i = 0; i < powerUpData.length; i++) {
+      const t = i / this.context.sampleRate
+      powerUpData[i] = Math.sin(2 * Math.PI * (440 + t * 880) * t) * 
+                        Math.sin(2 * Math.PI * 880 * t) * 
+                        Math.exp(-t * 1.5) * 0.7
+    }
+    this.sounds.set('powerup', powerUpBuffer)
+
+    // Cosmic explosion sound
+    const explosionBuffer = this.context.createBuffer(1, this.context.sampleRate * 1.2, this.context.sampleRate)
+    const explosionData = explosionBuffer.getChannelData(0)
+    for (let i = 0; i < explosionData.length; i++) {
+      const t = i / this.context.sampleRate
+      explosionData[i] = (Math.sin(2 * Math.PI * 55 * t) * Math.sin(t * 30) * 0.8 +
+                         (Math.random() - 0.5) * 0.3 * Math.exp(-t * 5)) * 
+                        Math.exp(-t * 0.8)
+    }
+    this.sounds.set('explosion', explosionBuffer)
+
+    // Quantum sound
+    const quantumBuffer = this.context.createBuffer(1, this.context.sampleRate * 0.3, this.context.sampleRate)
+    const quantumData = quantumBuffer.getChannelData(0)
+    for (let i = 0; i < quantumData.length; i++) {
+      const t = i / this.context.sampleRate
+      quantumData[i] = (Math.sin(2 * Math.PI * 1760 * t) * Math.sin(t * 50) +
+                        Math.sin(2 * Math.PI * 3520 * t) * 0.3) * 
+                       Math.exp(-t * 4) * 0.6
+    }
+    this.sounds.set('quantum', quantumBuffer)
   }
 
   play(soundName: string, volume: number = 0.5) {

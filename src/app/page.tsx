@@ -101,14 +101,99 @@ const Factory404 = () => {
   const [alienInvasion, setAlienInvasion] = useState(false)
   const [spaceBattle, setSpaceBattle] = useState(false)
   const [discoveredSecrets, setDiscoveredSecrets] = useState([])
-  const [hiddenAchievements, setHiddenAchievements] = useState({
+    const [hiddenAchievements, setHiddenAchievements] = useState({
     legendaryBuilder: false,
     quantumMaster: false,
     interdimensionalExplorer: false,
     ultimateWinner: false
   })
 
-  // Function declarations moved up to fix dependency issues
+   // New entertainment states
+  const [partyMode, setPartyMode] = useState(false)
+  const [discoMode, setDiscoMode] = useState(false)
+  const [hyperMode, setHyperMode] = useState(false)
+  const [confettiActive, setConfettiActive] = useState(false)
+  const [miniGameActive, setMiniGameActive] = useState('')
+  const [powerUps, setPowerUps] = useState({
+    rainbowBlast: false,
+    timeFreeze: false,
+    multiplierX10: false,
+    particleStorm: false
+  })
+  const [entertainmentLevel, setEntertainmentLevel] = useState(0)
+  const [showFireworks, setShowFireworks] = useState(false)
+
+   // Enhanced entertainment functions
+   const triggerConfetti = useCallback(() => {
+    setConfettiActive(true)
+    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00']
+    
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div')
+        confetti.className = 'confetti-piece'
+        confetti.style.left = Math.random() * 100 + '%'
+        confetti.style.top = Math.random() * 50 + '%'
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        confetti.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px')
+        confetti.style.setProperty('--y', Math.random() * 200 + 100 + 'px')
+        document.body.appendChild(confetti)
+        
+        setTimeout(() => confetti.remove(), 2000)
+      }, i * 30)
+    }
+    
+    setTimeout(() => setConfettiActive(false), 2000)
+  }, [])
+
+  const triggerFireworks = useCallback(() => {
+    setShowFireworks(true)
+    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00', '#fff']
+    
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        const firework = document.createElement('div')
+        firework.style.position = 'fixed'
+        firework.style.left = Math.random() * 80 + 10 + '%'
+        firework.style.top = Math.random() * 50 + '%'
+        firework.style.width = '4px'
+        firework.style.height = '4px'
+        firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        firework.style.borderRadius = '50%'
+        firework.style.boxShadow = `0 0 20px ${firework.style.backgroundColor}`
+        firework.classList.add('animate-cosmic-explosion')
+        firework.style.zIndex = '9999'
+        document.body.appendChild(firework)
+        
+        setTimeout(() => firework.remove(), 1500)
+      }, i * 200)
+    }
+    
+    setTimeout(() => setShowFireworks(false), 3000)
+  }, [])
+
+  const togglePartyMode = useCallback(() => {
+    setPartyMode(!partyMode)
+    if (!partyMode) {
+      triggerConfetti()
+      // Will add message after addMessage is defined
+    } else {
+      // Will add message after addMessage is defined
+    }
+  }, [partyMode, triggerConfetti])
+
+  const toggleDiscoMode = useCallback(() => {
+    setDiscoMode(!discoMode)
+    if (!discoMode) {
+      document.body.classList.add('disco-mode')
+      // Will add message after addMessage is defined
+    } else {
+      document.body.classList.remove('disco-mode')
+      // Will add message after addMessage is defined
+    }
+  }, [discoMode])
+
+   // Function declarations moved up to fix dependency issues
   const addMessage = useCallback((msg: string, useTypewriter = true) => {
     if (useTypewriter && msg.includes('> [') && !msg.includes('> [PROMPT]')) {
       // Typewriter effect for system messages
@@ -163,6 +248,10 @@ const Factory404 = () => {
       })
     }
   }, [])
+
+
+
+
 
   const playSound = (soundType: string) => {
     if (!soundEnabled) return
@@ -233,6 +322,107 @@ const Factory404 = () => {
       }, 1500)
     }, [particleEffects])
 
+  // Enhanced entertainment functions
+  const triggerConfetti = useCallback(() => {
+    setConfettiActive(true)
+    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00']
+    
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div')
+        confetti.className = 'confetti-piece'
+        confetti.style.left = Math.random() * 100 + '%'
+        confetti.style.top = Math.random() * 50 + '%'
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        confetti.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px')
+        confetti.style.setProperty('--y', Math.random() * 200 + 100 + 'px')
+        document.body.appendChild(confetti)
+        
+        setTimeout(() => confetti.remove(), 2000)
+      }, i * 30)
+    }
+    
+    setTimeout(() => setConfettiActive(false), 2000)
+  }, [])
+
+  const triggerFireworks = useCallback(() => {
+    setShowFireworks(true)
+    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00', '#fff']
+    
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        const firework = document.createElement('div')
+        firework.style.position = 'fixed'
+        firework.style.left = Math.random() * 80 + 10 + '%'
+        firework.style.top = Math.random() * 50 + '%'
+        firework.style.width = '4px'
+        firework.style.height = '4px'
+        firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        firework.style.borderRadius = '50%'
+        firework.style.boxShadow = `0 0 20px ${firework.style.backgroundColor}`
+        firework.classList.add('animate-cosmic-explosion')
+        firework.style.zIndex = '9999'
+        document.body.appendChild(firework)
+        
+        setTimeout(() => firework.remove(), 1500)
+      }, i * 200)
+    }
+    
+    setTimeout(() => setShowFireworks(false), 3000)
+  }, [])
+
+  const togglePartyMode = useCallback(() => {
+    setPartyMode(!partyMode)
+    if (!partyMode) {
+      triggerConfetti()
+      addMessage("> 🎉 [PARTY MODE] ACTIVATED! Let's get this party started!")
+    } else {
+      addMessage("> [PARTY MODE] Deactivated. Back to serious business!")
+    }
+  }, [partyMode, triggerConfetti, addMessage])
+
+  const toggleDiscoMode = useCallback(() => {
+    setDiscoMode(!discoMode)
+    if (!discoMode) {
+      document.body.classList.add('disco-mode')
+      addMessage("> 🕺 [DISCO FEVER] Everybody dance now!")
+    } else {
+      document.body.classList.remove('disco-mode')
+      addMessage("> [DISCO MODE] Deactivated. The party's over!")
+    }
+  }, [discoMode, addMessage])
+
+  const activatePowerUp = useCallback((type: string) => {
+    setPowerUps(prev => ({...prev, [type]: true}))
+    
+    switch(type) {
+      case 'rainbowBlast':
+        addMessage("> 🌈 [POWER-UP] Rainbow Blast activated!")
+        triggerFireworks()
+        setCredits(prev => prev + 100)
+        break
+      case 'timeFreeze':
+        addMessage("> ⏰ [POWER-UP] Time Freeze activated!")
+        setClicks(prev => prev + 50)
+        break
+      case 'multiplierX10':
+        addMessage("> ×10 [POWER-UP] 10x Multiplier activated!")
+        setMegaCombo(prev => Math.min(prev + 10, 20))
+        break
+      case 'particleStorm':
+        addMessage("> 🌪️ [POWER-UP] Particle Storm activated!")
+        for(let i = 0; i < 5; i++) {
+          setTimeout(() => createParticleExplosion(), i * 200)
+        }
+        break
+    }
+    
+    setTimeout(() => {
+      setPowerUps(prev => ({...prev, [type]: false}))
+      addMessage(`> [POWER-UP] ${type} expired`)
+    }, 10000)
+  }, [addMessage, triggerFireworks, createParticleExplosion])
+
   // Check if first visit
   useEffect(() => {
     const hasVisited = localStorage.getItem('factory404_visited')
@@ -278,7 +468,106 @@ FACTORY 404 OFFLINE
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [])
 
+  // Enhanced entertainment functions
+  const triggerConfetti = useCallback(() => {
+    setConfettiActive(true)
+    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00']
+    
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div')
+        confetti.className = 'confetti-piece'
+        confetti.style.left = Math.random() * 100 + '%'
+        confetti.style.top = Math.random() * 50 + '%'
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        confetti.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px')
+        confetti.style.setProperty('--y', Math.random() * 200 + 100 + 'px')
+        document.body.appendChild(confetti)
+        
+        setTimeout(() => confetti.remove(), 2000)
+      }, i * 30)
+    }
+    
+    setTimeout(() => setConfettiActive(false), 2000)
+  }, [])
 
+  const triggerFireworks = useCallback(() => {
+    setShowFireworks(true)
+    const colors = ['#ff006e', '#00d9ff', '#00ff88', '#9d00ff', '#ffea00', '#fff']
+    
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        const firework = document.createElement('div')
+        firework.style.position = 'fixed'
+        firework.style.left = Math.random() * 80 + 10 + '%'
+        firework.style.top = Math.random() * 50 + '%'
+        firework.style.width = '4px'
+        firework.style.height = '4px'
+        firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        firework.style.borderRadius = '50%'
+        firework.style.boxShadow = `0 0 20px ${firework.style.backgroundColor}`
+        firework.classList.add('animate-cosmic-explosion')
+        firework.style.zIndex = '9999'
+        document.body.appendChild(firework)
+        
+        setTimeout(() => firework.remove(), 1500)
+      }, i * 200)
+    }
+    
+    setTimeout(() => setShowFireworks(false), 3000)
+  }, [])
+
+  const togglePartyMode = useCallback(() => {
+    setPartyMode(!partyMode)
+    if (!partyMode) {
+      triggerConfetti()
+      addMessage("> 🎉 [PARTY MODE] ACTIVATED! Let's get this party started!")
+    } else {
+      addMessage("> [PARTY MODE] Deactivated. Back to serious business!")
+    }
+  }, [partyMode, triggerConfetti, addMessage])
+
+  const toggleDiscoMode = useCallback(() => {
+    setDiscoMode(!discoMode)
+    if (!discoMode) {
+      document.body.classList.add('disco-mode')
+      addMessage("> 🕺 [DISCO FEVER] Everybody dance now!")
+    } else {
+      document.body.classList.remove('disco-mode')
+      addMessage("> [DISCO MODE] Deactivated. The party's over!")
+    }
+  }, [discoMode, addMessage])
+
+  const activatePowerUp = useCallback((type: string) => {
+    setPowerUps(prev => ({...prev, [type]: true}))
+    
+    switch(type) {
+      case 'rainbowBlast':
+        addMessage("> 🌈 [POWER-UP] Rainbow Blast activated!")
+        triggerFireworks()
+        setCredits(prev => prev + 100)
+        break
+      case 'timeFreeze':
+        addMessage("> ⏰ [POWER-UP] Time Freeze activated!")
+        setClicks(prev => prev + 50)
+        break
+      case 'multiplierX10':
+        addMessage("> ×10 [POWER-UP] 10x Multiplier activated!")
+        setMegaCombo(prev => Math.min(prev + 10, 20))
+        break
+      case 'particleStorm':
+        addMessage("> 🌪️ [POWER-UP] Particle Storm activated!")
+        for(let i = 0; i < 5; i++) {
+          setTimeout(() => createParticleExplosion(), i * 200)
+        }
+        break
+    }
+    
+    setTimeout(() => {
+      setPowerUps(prev => ({...prev, [type]: false}))
+      addMessage(`> [POWER-UP] ${type} expired`)
+    }, 10000)
+  }, [addMessage, triggerFireworks, createParticleExplosion])
 
   // Check for epic victory condition
   useEffect(() => {
@@ -829,8 +1118,69 @@ FACTORY 404 OFFLINE
            window.location.reload()
          }
          break
-       default:
-         addMessage("> [ERROR] Unknown command. Type 'help' for options")
+        default:
+          // Easter eggs for secret commands
+          if (lowerCommand === 'party') {
+            addMessage("> 🎉 [SECRET] Party mode unlocked!")
+            playSound('party')
+            setCredits(prev => prev + 50)
+            setTimeout(() => {
+              for(let i = 0; i < 5; i++) {
+                setTimeout(() => createParticleExplosion(), i * 100)
+              }
+            }, 500)
+          } else if (lowerCommand === 'disco') {
+            addMessage("> 🕺 [SECRET] Disco fever activated!")
+            playSound('disco')
+            document.body.classList.add('animate-disco-fever')
+            setTimeout(() => {
+              document.body.classList.remove('animate-disco-fever')
+            }, 5000)
+          } else if (lowerCommand === 'matrix') {
+            addMessage("> 💊 [SECRET] Take the blue pill...")
+            setTheme('matrix')
+          } else if (lowerCommand === 'cyber') {
+            addMessage("> 🔮 [SECRET] Cyberpunk mode engaged!")
+            setTheme('cyber')
+          } else if (lowerCommand === 'retro') {
+            addMessage("> 📟 [SECRET] Retro wave activated!")
+            setTheme('retro')
+          } else if (lowerCommand === 'quantum') {
+            addMessage("> ⚛️ [SECRET] Quantum fluctuation detected!")
+            playSound('quantum')
+            setCorruptionLevel(prev => Math.min(3, prev + 1))
+            setCredits(prev => prev + 25)
+          } else if (lowerCommand === 'wombo') {
+            addMessage("> 🎨 [SECRET] Wombo Combo activated!")
+            playSound('powerup')
+            setClicks(prev => prev + 100)
+            setItems(prev => [...prev, ...Array.from({length: 10}, () => generateItem(false))])
+            setTimeout(() => createParticleExplosion(), 200)
+          } else if (lowerCommand === '42') {
+            addMessage("> 🤔 [SECRET] The answer to everything...")
+            setCredits(prev => prev + 42)
+          } else if (lowerCommand === 'lucky') {
+            addMessage("> 🍀 [SECRET] Lucky number 7!")
+            const luckyBonus = Math.floor(Math.random() * 777) + 777
+            setCredits(prev => prev + luckyBonus)
+            addMessage(`> [LUCKY] You won ${luckyBonus} credits!`)
+            playSound('victory')
+          } else if (lowerCommand === 'leet') {
+            addMessage("> 🎮 [SECRET] 1337 H4X0R M0D3!")
+            playSound('powerup')
+            setClicks(prev => prev + 1337)
+            setUpgrades(prev => ({...prev, overclock: prev.overclock + 13}))
+            setAutoClickers(prev => prev + 3)
+          } else if (lowerCommand === 'universe') {
+            addMessage("> 🌌 [SECRET] Don't panic...")
+            setTimeout(() => {
+              addMessage("> [UNIVERSE] ...and always bring a towel!")
+              setCredits(prev => prev * 2)
+              playSound('victory')
+            }, 3000)
+          } else {
+            addMessage("> [ERROR] Unknown command. Type 'help' for options")
+          }
     }
   }
 
@@ -970,9 +1320,69 @@ FACTORY 404 OFFLINE
         }
         break
         
-      default:
-        addMessage(`> [ERROR] Unknown command: ${cmd}`)
-        addMessage("> [HELP] Type /help for available commands")
+        default:
+          addMessage(`> [ERROR] Unknown command: ${cmd}`)
+          addMessage("> [HELP] Type /help for available commands")
+          
+          // Easter eggs for specific unknown commands
+          if (cmd === '/party') {
+            addMessage("> 🎉 [SECRET] Party mode unlocked!")
+            triggerFireworks()
+            setCredits(prev => prev + 50)
+          } else if (cmd === '/disco') {
+            addMessage("> 🕺 [SECRET] Disco fever activated!")
+            document.body.classList.add('animate-disco-fever')
+          } else if (cmd === '/quantum') {
+            addMessage("> ⚛️ [SECRET] Quantum fluctuation detected!")
+            setCorruptionLevel(prev => Math.min(3, prev + 1))
+            setCredits(prev => prev + 25)
+          } else if (cmd === '/matrix') {
+            addMessage("> 💊 [SECRET] Take the blue pill or the red pill?")
+            setTheme('matrix')
+          } else if (cmd === '/cyber') {
+            addMessage("> 🔮 [SECRET] Cyberpunk mode engaged!")
+            setTheme('cyber')
+          } else if (cmd === '/retro') {
+            addMessage("> 📟 [SECRET] Retro wave activated!")
+            setTheme('retro')
+          } else if (cmd === '/rainbow') {
+            addMessage("> 🌈 [SECRET] Rainbow power unleashed!")
+            for(let i = 0; i < 3; i++) {
+              setTimeout(() => triggerFireworks(), i * 300)
+            }
+            setMegaCombo(prev => prev + 5)
+          } else if (cmd === '/wombo') {
+            addMessage("> 🎨 [SECRET] Wombo Combo activated!")
+            setClicks(prev => prev + 100)
+            setItems(prev => [...prev, ...Array.from({length: 10}, () => generateItem(false))])
+            triggerFireworks()
+          } else if (cmd === '/42') {
+            addMessage("> 🤔 [SECRET] The answer to life, the universe, and everything.")
+            setCredits(prev => prev + 42)
+          } else if (cmd === '/fortytwo') {
+            addMessage("> 🌌 [SECRET] Deep thought engaged...")
+            setTimeout(() => {
+              addMessage("> [FORTYTWO] ...42. Here are 42 credits!")
+              setCredits(prev => prev + 42)
+              triggerFireworks()
+            }, 2000)
+          } else if (cmd === '/leet') {
+            addMessage("> 🎮 [SECRET] 1337 H4X0R M0D3 4CT1V4T3D!")
+            setClicks(prev => prev + 1337)
+            setUpgrades(prev => ({...prev, overclock: prev.overclock + 13}))
+            setAutoClickers(prev => prev + 3)
+          } else if (cmd === '/lucky') {
+            addMessage("> 🍀 [SECRET] Lucky number 7!")
+            const luckyBonus = Math.floor(Math.random() * 777) + 777
+            setCredits(prev => prev + luckyBonus)
+            addMessage(`> [LUCKY] You won ${luckyBonus} credits!`)
+          } else if (cmd === '/universe') {
+            addMessage("> 🌌 [SECRET] The universe smiles upon you...")
+            setTimeout(() => {
+              addMessage("> [UNIVERSE] Don't panic. And always bring a towel.")
+              setCredits(prev => prev * 2)
+            }, 3000)
+          }
     }
   }
 
@@ -1477,7 +1887,7 @@ useEffect(() => {
     )
 
   return (
-    <div className={`min-h-screen bg-black text-green-400 font-mono p-1 sm:p-2 md:p-4 overflow-hidden relative ${isGlitching ? 'animate-glitch' : ''} ${theme === 'cyber' ? 'theme-cyber' : theme === 'retro' ? 'theme-retro' : ''}`}>
+    <div className={`min-h-screen bg-black text-green-400 font-mono p-1 sm:p-2 md:p-4 overflow-hidden relative ${isGlitching ? 'animate-glitch' : ''} ${theme === 'cyber' ? 'theme-cyber' : theme === 'retro' ? 'theme-retro' : ''} ${partyMode ? 'party-mode-bg' : ''} ${discoMode ? 'animate-disco-fever' : ''}`}>
       {/* Scan line effect */}
       <ScanLine />
       
@@ -1649,17 +2059,17 @@ useEffect(() => {
            <div className="border border-green-800 p-1 sm:p-2">
              <div className="flex flex-col h-full">
                 {/* Main button */}
-                 <button 
-                   onClick={handleClick}
-                   className={`cyber-button neon-border px-2 py-2 sm:px-4 sm:py-3 mb-2 sm:mb-4 text-sm sm:text-lg transition-all duration-300 transform flex items-center justify-center relative overflow-hidden group neon-glow ${
-                     factoryHealth <= 0 
-                       ? 'border-gray-600 text-gray-600 cursor-not-allowed' 
-                       : isLoading
-                       ? 'border-yellow-400 text-yellow-400 animate-pulse'
-                       : 'border-green-400 text-green-400 hover-glow'
-                   }`}
-                   disabled={factoryHealth <= 0 || isLoading}
-                 >
+                  <button 
+                    onClick={handleClick}
+                    className={`cyber-button neon-border px-2 py-2 sm:px-4 sm:py-3 mb-2 sm:mb-4 text-sm sm:text-lg transition-all duration-300 transform flex items-center justify-center relative overflow-hidden group neon-glow hyper-interactive ${
+                      factoryHealth <= 0 
+                        ? 'border-gray-600 text-gray-600 cursor-not-allowed' 
+                        : isLoading
+                        ? 'border-yellow-400 text-yellow-400 animate-pulse animate-rainbow-explosion'
+                        : 'border-green-400 text-green-400 hover-glow party-button'
+                    } ${megaCombo >= 10 ? 'animate-super-glow' : ''} ${partyMode ? 'animate-disco-fever' : ''}`}
+                    disabled={factoryHealth <= 0 || isLoading}
+                  >
                   {/* Enhanced button animation */}
                   <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-all duration-300"></div>
                   <div className="absolute inset-0 bg-green-400 opacity-10 group-hover:opacity-30 transition-all duration-300"></div>
@@ -1822,23 +2232,67 @@ useEffect(() => {
            </div>
          )}
 
-         {/* Special Abilities */}
-         {(specialAbilities.timeWarp || specialAbilities.matterDuplicator || specialAbilities.realityHack) && (
-           <div className="mt-4 border border-purple-400 p-2 bg-purple-900 bg-opacity-20">
-             <h3 className="text-sm text-purple-400 mb-2">[✨ SPECIAL ABILITIES ✨]</h3>
-             <div className="flex flex-wrap gap-2">
-               {specialAbilities.timeWarp && (
-                 <span className="text-xs border border-purple-400 px-2 py-1">⏰ Time Warp</span>
-               )}
-               {specialAbilities.matterDuplicator && (
-                 <span className="text-xs border border-purple-400 px-2 py-1">🔄 Matter Duplicator</span>
-               )}
-               {specialAbilities.realityHack && (
-                 <span className="text-xs border border-purple-400 px-2 py-1">🌌 Reality Hack</span>
-               )}
-             </div>
-           </div>
-         )}
+          {/* Special Abilities */}
+          {(specialAbilities.timeWarp || specialAbilities.matterDuplicator || specialAbilities.realityHack || powerUps.rainbowBlast || powerUps.multiplierX10 || powerUps.particleStorm) && (
+            <div className="mt-4 border border-purple-400 p-2 bg-purple-900 bg-opacity-20 animate-neon-pulse-party">
+              <h3 className="text-sm text-purple-400 mb-2 disco-text">[✨ SPECIAL POWERS ✨]</h3>
+              <div className="flex flex-wrap gap-2">
+                {specialAbilities.timeWarp && (
+                  <span className="text-xs border border-purple-400 px-2 py-1 animate-super-glow">⏰ Time Warp</span>
+                )}
+                {specialAbilities.matterDuplicator && (
+                  <span className="text-xs border border-purple-400 px-2 py-1 animate-super-glow">🔄 Matter Duplicator</span>
+                )}
+                {specialAbilities.realityHack && (
+                  <span className="text-xs border border-purple-400 px-2 py-1 animate-super-glow">🌌 Reality Hack</span>
+                )}
+                {powerUps.rainbowBlast && (
+                  <span className="text-xs border border-pink-400 px-2 py-1 animate-rainbow-glow disco-text">🌈 Rainbow Blast</span>
+                )}
+                {powerUps.multiplierX10 && (
+                  <span className="text-xs border border-yellow-400 px-2 py-1 animate-super-glow party-text">×10 Multiplier</span>
+                )}
+                {powerUps.particleStorm && (
+                  <span className="text-xs border border-cyan-400 px-2 py-1 animate-quantum-particle">🌪️ Particle Storm</span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Power-up buttons */}
+          <div className="mt-4 border border-green-800 p-2">
+            <h3 className="text-sm mb-2">[🎁 INSTANT POWER-UPS 🎁]</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <button 
+                onClick={() => {playSound('powerup'); setCredits(prev => prev - 25); addMessage("> 🌈 Rainbow Blast purchased!"); setTimeout(() => createParticleExplosion(), 100);}}
+                className="px-2 py-1 text-xs border border-pink-400 hover:bg-pink-400 hover:text-black party-button hyper-interactive"
+                disabled={credits < 25}
+              >
+                🌈 Rainbow (25💰)
+              </button>
+              <button 
+                onClick={() => {playSound('powerup'); setCredits(prev => prev - 20); setMegaCombo(prev => prev + 5); addMessage("> ⚡ Speed Boost activated!");}}
+                className="px-2 py-1 text-xs border border-yellow-400 hover:bg-yellow-400 hover:text-black animate-super-glow hyper-interactive"
+                disabled={credits < 20}
+              >
+                ⚡ Speed (20💰)
+              </button>
+              <button 
+                onClick={() => {playSound('quantum'); setCredits(prev => prev - 30); setAutoClickers(prev => prev + 1); addMessage("> 🤖 Auto-clicker added!");}}
+                className="px-2 py-1 text-xs border border-purple-400 hover:bg-purple-400 hover:text-black animate-quantum-particle hyper-interactive"
+                disabled={credits < 30}
+              >
+                🤖 Drone (30💰)
+              </button>
+              <button 
+                onClick={() => {playSound('explosion'); setCredits(prev => prev - 15); setClicks(prev => prev + 25); addMessage("> 💥 Click explosion!"); setTimeout(() => createParticleExplosion(), 50);}}
+                className="px-2 py-1 text-xs border border-red-400 hover:bg-red-400 hover:text-black animate-cosmic-explosion hyper-interactive"
+                disabled={credits < 15}
+              >
+                💥 Clicks (15💰)
+              </button>
+            </div>
+          </div>
 
          {/* Alien Invasion Alert */}
          {alienInvasion && (
@@ -1925,12 +2379,30 @@ useEffect(() => {
               >
                 [RES]
               </button>
-              <button 
-                onClick={startHackGame}
-                className="px-1 sm:px-2 py-1 text-xs border border-purple-400 hover:bg-purple-400 hover:text-black animate-pulse"
-              >
-                [HACK]
-              </button>
+               <button 
+                 onClick={startHackGame}
+                 className="px-1 sm:px-2 py-1 text-xs border border-purple-400 hover:bg-purple-400 hover:text-black animate-pulse hyper-interactive"
+               >
+                 [HACK]
+               </button>
+               <button 
+                 onClick={() => {addMessage("> 🎉 [PARTY] Let's get this party started!"); playSound('party'); setTimeout(() => createParticleExplosion(), 300);}}
+                 className="px-1 sm:px-2 py-1 text-xs border border-pink-400 hover:bg-pink-400 hover:text-black party-button"
+               >
+                 [PARTY]
+               </button>
+               <button 
+                 onClick={() => {addMessage("> 🌈 [RAINBOW] Rainbow power unleashed!"); playSound('powerup'); setTimeout(() => createParticleExplosion(), 200);}}
+                 className="px-1 sm:px-2 py-1 text-xs border border-cyan-400 hover:bg-cyan-400 hover:text-black animate-rainbow-glow"
+               >
+                 [RAINBOW]
+               </button>
+               <button 
+                 onClick={() => {addMessage("> ⚛️ [QUANTUM] Quantum fluctuation!"); playSound('quantum'); setMegaCombo(prev => prev + 5);}}
+                 className="px-1 sm:px-2 py-1 text-xs border border-purple-400 hover:bg-purple-400 hover:text-black animate-quantum-particle"
+               >
+                 [QUANTUM]
+               </button>
            </div>
          </div>
          
