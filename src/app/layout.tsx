@@ -12,9 +12,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Best practice: Add the verification to the metadata object
 export const metadata: Metadata = {
   title: "FACTORY 404",
   description: "A retro terminal game",
+  verification: {
+    google: "YuQrC7DcNbYUtrPZKWXZ_GgDqm8QkVGwpmigcHODNT0",
+  },
 };
 
 export default function RootLayout({
